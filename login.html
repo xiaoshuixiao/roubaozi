@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/iconfont.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="./bootstrap-3.3.7-dist/css/bootstrap.css">
 </head>
 
 <body>
@@ -29,8 +30,62 @@
             </form>
         </div>
 
-    </div> 
+    </div>
 
+    <!-- Small modal -->
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small
+        modal</button> -->
+
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="myModal">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+            
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script>
+        $(function () {
+            $('.input_sub').on('click', function (e) {
+                e.preventDefault();
+                if ($('.input_txt').val().trim() == '' || $('.input_pass').val().trim() == '') {
+                    console.log(1);
+                    
+                    $('.modal-content').text('笨蛋你不能输入为空啊');
+                   $('#myModal').modal({
+                       keyboard:true
+                   })
+                } else {
+                    $.ajax({
+
+                        type: 'post',
+                        url: 'https://autumnfish.cn/big/admin/login',
+                        data: {
+                            user_name: $('.input_txt').val().trim(),
+                            password: $('.input_pass').val().trim()
+                        },
+                        success: function (backData) {
+                            console.log(backData);
+                            
+                            if (backData.code != 200) {
+                                $('.modal-content').text('笨蛋你又输入错了啊')
+                               $('#myModal').modal({
+                                   keyboard:true
+                               })
+                            } else {
+                                window.location.href = './index.html'
+                            }
+                        }
+                    });
+
+
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
