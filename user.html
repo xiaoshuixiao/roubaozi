@@ -24,19 +24,19 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">用户名称：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="李思思">
+                        <input type="text" class="form-control username" name="username" value="李思思">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">昵称：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="思思">
+                        <input type="text" class="form-control nickname" name="nickname" value="思思">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">邮箱：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="lisisi@126.com">
+                        <input type="text" class="form-control email" name="email" value="lisisi@126.com">
                     </div>
                 </div>
                 
@@ -51,7 +51,7 @@
                 <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">密码：</label>
                         <div class="col-sm-4">
-                            <input type="password" class="form-control" id="inputEmail3" value="12345678">
+                            <input type="password" class="form-control password" name="password" value="12345678">
                         </div>
                     </div>
                
@@ -65,6 +65,46 @@
         </div>
     </div>
 
+    <script>
+        $(function(){
+            $.ajax({
+                type: 'get',
+                url:'http://localhost:8000/admin/userinfo_get',
+                success:function(backData){
+                    // $('input[name]:eq(0)').val(backData.data.username);
+                    // console.log(backData.data);
+                    // console.log( $('input.username'));
+                    // console.log($('input[name]:eq(0)'));
+                    
+                    $('input.username').val(backData.data.username);
+                    for(var key in backData.data){
+                        $('input.'+key).val(backData.data[key])
+                    }
+                   $('.user_pic').attr('src',backData.data.user_pic)
+                }
+            });
+
+
+            $('#exampleInputFile').on('change',function(){
+                var icon =this.files[0];
+                var url = URL.createObjectURL(icon);
+                console.log(url);
+                
+                $('.user_pic').attr('src',URL.createObjectURL($(this).files[0]))
+                console.log(URL.createObjectURL($('#exampleInputFile').files[0]));
+                
+            });
+
+
+            $('.btn-success').on('click',function(){
+
+            });
+
+        });
+
+
+
+    </script>
 </body>
 
 </html>
