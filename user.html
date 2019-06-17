@@ -39,23 +39,23 @@
                         <input type="text" class="form-control email" name="email" value="lisisi@126.com">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">用户图标：</label>
                     <div class="col-sm-10">
                         <img src="images/2.jpg" alt="" class="user_pic">
-                        <input type="file" id="exampleInputFile">
+                        <input type="file" id="exampleInputFile" name="user_pic">
                     </div>
                 </div>
 
                 <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">密码：</label>
-                        <div class="col-sm-4">
-                            <input type="password" class="form-control password" name="password" value="12345678">
-                        </div>
+                    <label for="inputEmail3" class="col-sm-2 control-label">密码：</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control password" name="password" value="12345678">
                     </div>
-               
-    
+                </div>
+
+
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-success">修改</button>
@@ -66,38 +66,51 @@
     </div>
 
     <script>
-        $(function(){
+        $(function () {
             $.ajax({
                 type: 'get',
-                url:'http://localhost:8000/admin/userinfo_get',
-                success:function(backData){
+                url: 'http://localhost:8000/admin/userinfo_get',
+                success: function (backData) {
                     // $('input[name]:eq(0)').val(backData.data.username);
                     // console.log(backData.data);
                     // console.log( $('input.username'));
                     // console.log($('input[name]:eq(0)'));
-                    
+
                     $('input.username').val(backData.data.username);
-                    for(var key in backData.data){
-                        $('input.'+key).val(backData.data[key])
+                    for (var key in backData.data) {
+                        $('input.' + key).val(backData.data[key])
                     }
-                   $('.user_pic').attr('src',backData.data.user_pic)
+                    $('.user_pic').attr('src', backData.data.user_pic)
                 }
             });
 
 
-            $('#exampleInputFile').on('change',function(){
-                var icon =this.files[0];
-                var url = URL.createObjectURL(icon);
-                console.log(url);
-                
-                $('.user_pic').attr('src',URL.createObjectURL($(this).files[0]))
-                console.log(URL.createObjectURL($('#exampleInputFile').files[0]));
-                
+            $('#exampleInputFile').on('change', function () {
+                // var icon = this.files[0];
+                // var url = URL.createObjectURL(icon);
+                // console.log(url);
+                $('.user_pic').attr('src', URL.createObjectURL(this.files[0]))
             });
 
+            $('.btn-success').on('click', function (e) {
+                e.preventDefault();
+                console.log($('form')[0]);
+                var formData = new FormData($('form')[0])
+               
+                $.ajax({
+                    type:'post',
+                    url:'http://localhost:8000/admin/userinfo_edit',
+                    data:formData,
+                    contentType:false,
+                    processData:false,
+                    success:function(backData){
+                        console.log(backData);
+                        
+                    }
+                
 
-            $('.btn-success').on('click',function(){
-
+                });
+                console.log(formData);
             });
 
         });
