@@ -156,7 +156,7 @@
                 });
             }
 
-            article ();
+            article();
 
             //增加文章类
             $('#model_add').on('click', function () {
@@ -175,6 +175,10 @@
                         article();
                         console.log(backData);
                         //if(backData == 200)提示有没有添加成功
+                        if (backData.code == 200) {
+
+                            $('#addModal').modal('hide');
+                        }
                     }
                 });
             });
